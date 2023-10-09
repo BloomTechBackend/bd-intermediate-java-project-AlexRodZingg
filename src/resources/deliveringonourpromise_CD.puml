@@ -120,6 +120,16 @@ class Promise {
     + setDeliveryDate(ZonedDateTime deliveryDate) : void
 }
 
-
+PromiseHistoryClient -- GetPromiseHistoryByOrderIdActivity
+GetPromiseHistoryByOrderIdActivity -- PromiseDao
+GetPromiseHistoryByOrderIdActivity -- OrderDao
+PromiseDao -- DeliveryPromiseServiceClient
+PromiseDao -- OrderManipulationAuthorityClient
+OrderDao -- OrderManipulationAuthorityClient
+PromiseHistory -- Order
+PromiseHistory -- Promise
+Order -- OrderItem
+OrderDao ..|> ReadOnlyDao
+PromiseDao ..|> ReadOnlyDao
 
 @enduml
