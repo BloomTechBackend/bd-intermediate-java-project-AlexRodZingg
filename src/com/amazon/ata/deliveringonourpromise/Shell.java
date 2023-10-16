@@ -67,6 +67,8 @@ public class Shell {
             {
                 System.out.println(shell.handleUserRequest());
             } while (shell.userHasAnotherRequest());
+
+            // FIXME: Figure out how to allow print of UNKNOWN_ORDER_MESSAGE
         } catch (Exception e)
         {
             System.out.println("Error encountered. Exiting.");
