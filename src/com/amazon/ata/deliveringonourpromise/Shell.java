@@ -90,9 +90,12 @@ public class Shell {
         } while ("".equals(response));
 
         PromiseHistory promiseHistory = promiseHistoryClient.getPromiseHistoryByOrderId(response);
+
+        // FIXME: This line doesn't get triggered when orderId doesn't exist.
         if (promiseHistory.getOrder() == null) {
             return String.format(UNKNOWN_ORDER_MESSAGE, response);
         }
+
         return renderOrderTable(promiseHistory.getOrder()) + renderPromiseHistoryTable(promiseHistory);
     }
 
