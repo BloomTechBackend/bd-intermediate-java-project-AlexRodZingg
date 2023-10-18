@@ -67,8 +67,6 @@ public class Shell {
             {
                 System.out.println(shell.handleUserRequest());
             } while (shell.userHasAnotherRequest());
-
-            // FIXME: Figure out how to allow print of UNKNOWN_ORDER_MESSAGE
         } catch (Exception e)
         {
             System.out.println("Error encountered. Exiting.");
@@ -93,7 +91,10 @@ public class Shell {
 
         PromiseHistory promiseHistory = promiseHistoryClient.getPromiseHistoryByOrderId(response);
 
-        // FIXME: This line doesn't get triggered when orderId doesn't exist.
+        if (promiseHistory == null) {
+            return String.format(UNKNOWN_ORDER_MESSAGE, response);
+        }
+
         if (promiseHistory.getOrder() == null) {
             return String.format(UNKNOWN_ORDER_MESSAGE, response);
         }
