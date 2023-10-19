@@ -91,6 +91,7 @@ public class Shell {
 
         PromiseHistory promiseHistory = promiseHistoryClient.getPromiseHistoryByOrderId(response);
 
+        // Needed to prevent NullPointerException if OrderId doesn't exist
         if (promiseHistory == null) {
             return String.format(UNKNOWN_ORDER_MESSAGE, response);
         }

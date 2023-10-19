@@ -39,9 +39,10 @@ public class GetPromiseHistoryByOrderIdActivity {
             throw new IllegalArgumentException("order ID cannot be null");
         }
 
-        // CHANGE MADE HERE
+
         Order order = orderDao.get(orderId);
 
+        // Needed to prevent NullPointerException if order is null
         if (order == null) {
             return null;
         }
