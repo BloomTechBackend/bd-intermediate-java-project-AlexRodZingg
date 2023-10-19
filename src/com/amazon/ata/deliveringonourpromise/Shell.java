@@ -34,6 +34,7 @@ public class Shell {
     private static final String INLINE_PROMPT = "> ";
 
     private PromiseHistoryClient promiseHistoryClient;
+    private PromiseHistory promiseHistory;
     private ATAUserHandler inputHandler;
 
     // FIXME: Added to cause a problem with Spotbug
@@ -87,9 +88,17 @@ public class Shell {
 
         do {
             response = inputHandler.getString(ORDER_ID_PROMPT, INLINE_PROMPT).trim();
-        } while ("".equals(response));
 
-        PromiseHistory promiseHistory = promiseHistoryClient.getPromiseHistoryByOrderId(response);
+            // Code changes here, including the while condition
+            // Now the program doesn't exit if the orderId is invalid
+            promiseHistory = promiseHistoryClient.getPromiseHistoryByOrderId(response);
+
+            if (promiseHistory == null) {
+                return String.format(UNKNOWN_ORDER_MESSAGE, response);
+            }
+        } while (promiseHistory == null);
+
+        //Moved PromiseHistory initialization
 
         // Needed to prevent NullPointerException if OrderId doesn't exist
         if (promiseHistory == null) {
