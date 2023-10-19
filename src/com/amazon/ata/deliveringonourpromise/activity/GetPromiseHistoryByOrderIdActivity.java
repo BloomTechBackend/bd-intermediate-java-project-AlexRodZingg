@@ -44,7 +44,7 @@ public class GetPromiseHistoryByOrderIdActivity {
 
         // Needed to prevent NullPointerException if order is null
         if (order == null) {
-            return null;
+            return new PromiseHistory(null);
         }
 
         List<OrderItem> customerOrderItems = order.getCustomerOrderItemList();
