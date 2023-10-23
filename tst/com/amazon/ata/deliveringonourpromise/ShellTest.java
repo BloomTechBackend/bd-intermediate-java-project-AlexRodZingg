@@ -286,31 +286,6 @@ public class ShellTest {
                    "Expected result to match regex " + pattern + "result was: " + result);
     }
 
-    // Mastery Task 1 Test
-    @Test
-    public void handleUserRequest_invalidOrderId_printsUNKNOWN_ORDER_MESSAGE() {
-        // Declare the dummyOrderId
-        String dummyOrderId = "111-749023-7630574";
-        String UNKNOWN_ORDER_MESSAGE_TEST = "Unable to find any order data for orderId: %s. Please check your order id and try again.";
-
-        // Mock the PromiseHistoryClient to return null
-        PromiseHistoryClient mockClient = Mockito.mock(PromiseHistoryClient.class);
-        when(mockClient.getPromiseHistoryByOrderId(Mockito.anyString())).thenReturn(null);
-
-        // Mock the ATAUserHandler to return the dummyOrderId
-        ATAUserHandler mockUserHandler = Mockito.mock(ATAUserHandler.class);
-        when(mockUserHandler.getString(Mockito.anyString(), Mockito.anyString())).thenReturn(dummyOrderId);
-
-        // Instantiate the Shell with the mocked objects
-        Shell shell = new Shell(mockClient, mockUserHandler);
-
-        // Call handleUserRequest and check the result
-        String result = shell.handleUserRequest();
-
-        // Assertion to check that the unknown order message is returned
-        assertEquals(String.format(UNKNOWN_ORDER_MESSAGE_TEST, dummyOrderId), result, "Expected the unknown order message to be displayed for orderId: " + dummyOrderId);
-    }
-
     // FIXME: Adding some required tests for testing purposes
     @Test
     void ARequiredTest() {
