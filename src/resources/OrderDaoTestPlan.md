@@ -39,3 +39,15 @@ Happy case, verifying that the OrderDao can return an order.
 
 ### Then
 * The result is not null
+
+### get_givenInvalidOrderId_ReturnsNull
+Unhappy, case verifying that the OrderDao can handle an invalid Order ID.
+
+#### Given
+* Invalid Order Id. 
+
+#### When
+1. We call `get()` with that Order Id.
+
+### Then
+* The result is null.
