@@ -62,8 +62,7 @@ public class Shell {
             do {
                 System.out.println(shell.handleUserRequest());
             } while (shell.userHasAnotherRequest());
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println("Error encountered. Exiting.");
         }
 
