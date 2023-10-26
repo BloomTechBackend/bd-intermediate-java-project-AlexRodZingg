@@ -37,9 +37,6 @@ public class Shell {
     private PromiseHistory promiseHistory;
     private ATAUserHandler inputHandler;
 
-    // FIXME: Added to cause a problem with Spotbug
-    private String unusedPrivateString;
-
     /**
      * Constructs a Shell instance that will use the given service client.
      *
@@ -112,10 +109,10 @@ public class Shell {
     /**
      * Generates the user-facing representation of the given promise history.
      *
-     * @param promiseHistory The PromiseHistory to render to user-facing String
+     * @param history The PromiseHistory to render to user-facing String
      * @return The String representation of the promise history to display to user
      */
-    private String renderPromiseHistoryTable(PromiseHistory promiseHistory) {
+    private String renderPromiseHistoryTable(PromiseHistory history) {
         List<String> columnNames = Arrays.asList(
                 "EFFECTIVE DATE",
                 "ASIN",
@@ -129,7 +126,7 @@ public class Shell {
         );
 
         List<List<String>> promiseRows = new ArrayList<>();
-        for (Promise promise : promiseHistory.getPromises()) {
+        for (Promise promise : history.getPromises()) {
             List<String> row = new ArrayList<>();
             promiseRows.add(row);
 
