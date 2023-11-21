@@ -3,6 +3,9 @@ package com.amazon.ata.deliveringonourpromise.types;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OrderTest {
     private List<OrderItem> customerOrderItemList = new ArrayList<>();
 
-
-    // Remember customerOrderItemList is a List, which is mutable.
-    // Then, the only way it would be vulnerable is through a getter.
-    // So, create a customerOrderItemList, fill it, then create an Order using the list in the constructor.
-    // Then test it by simply, creating a new list set equal to order.getCustomerOrderItemList()
-    // Defensive copying test: Mutable attribute + getter
-    // Don't overthink about what inputs are needed, just use the bare minimum needed to test without crashing
     @Test
     public void testDefensiveCopyingOnGetter() {
         customerOrderItemList.add(OrderItem.builder().withCustomerOrderItemId("1").build());
@@ -46,5 +42,38 @@ public class OrderTest {
 
         assertEquals(checkList.size(), order.getCustomerOrderItemList().size(),
                 "Changing customerOrderItemList should not have affected order.");
+    }
+
+    @Test
+    public void orderClassShouldNotHaveSetterForOrderId() {
+        Method[] methods = Order.class.getMethods();
+        for (Method method : methods) {
+            if (method.getName().toLowerCase().startsWith("set") && method.getParameterTypes().length == 1) {
+                if (method.getName().toLowerCase().contains("orderid")) {
+                    fail("Setter method found for orderId.");
+                }
+            }
+        }
+    }
+
+    @Test
+    public void orderClassShouldNotHaveSetterForCustomerId() {
+        Method[] methods = Order.class.getMethods();
+        for (Method method : methods) {
+            if (method.getName().toLowerCase().startsWith("set") && method.getParameterTypes().length == 1) {
+                if (method.getName().toLowerCase().contains("customerid")) {
+                    fail("Setter method found for customerId.");
+                }
+            }
+        }
+    }
+
+    @Test
+    public void orderAttributesArePrivate() {
+        Field[] fields = Order.class.getFields();
+        for (Field field : fields) {
+            assertTrue(Modifier.isPrivate(field.getModifiers()),
+                    "Field " + field.getName() + " should be private.");
+        }
     }
 }
