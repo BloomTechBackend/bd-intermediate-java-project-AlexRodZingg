@@ -7,13 +7,17 @@ import com.amazon.ata.deliveringonourpromise.data.OrderDatastore;
 import com.amazon.ata.deliveringonourpromise.deliverypromiseservice.DeliveryPromiseServiceClient;
 import com.amazon.ata.deliveringonourpromise.orderfulfillmentservice.OrderFulfillmentServiceClient;
 import com.amazon.ata.deliveringonourpromise.ordermanipulationauthority.OrderManipulationAuthorityClient;
+import com.amazon.ata.deliveringonourpromise.promiseclient.PromiseClient;
 import com.amazon.ata.deliveringonourpromise.promisehistoryservice.PromiseHistoryClient;
 import com.amazon.ata.deliverypromiseservice.service.DeliveryPromiseService;
 import com.amazon.ata.orderfulfillmentservice.OrderFulfillmentService;
 import com.amazon.ata.ordermanipulationauthority.OrderManipulationAuthority;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * Provides inversion of control for the DeliveringOnOurPromise project by instantiating all of the
+ * Provides inversion of control for the DeliveringOnOurPromise project by instantiating all the
  * dependencies needed by the Shell and its dependency classes.
  */
 public class App {
@@ -39,9 +43,10 @@ public class App {
         return new OrderDao(getOrderManipulationAuthorityClient());
     }
     public static PromiseDao getPromiseDao() {
-        return new PromiseDao(getDeliveryPromiseServiceClient(),
-                              getOrderManipulationAuthorityClient()
-        );
+        List<PromiseClient> promiseClients = new ArrayList<>();
+        promiseClients.add(getDeliveryPromiseServiceClient());
+        promiseClients.add(getOrderFulfillmentServiceClient());
+        return new PromiseDao(promiseClients, getOrderManipulationAuthorityClient());
     }
 
     // service clients

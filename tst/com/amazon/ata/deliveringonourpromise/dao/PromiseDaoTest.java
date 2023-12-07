@@ -2,13 +2,16 @@ package com.amazon.ata.deliveringonourpromise.dao;
 
 import com.amazon.ata.deliveringonourpromise.App;
 import com.amazon.ata.deliveringonourpromise.deliverypromiseservice.DeliveryPromiseServiceClient;
+import com.amazon.ata.deliveringonourpromise.orderfulfillmentservice.OrderFulfillmentServiceClient;
 import com.amazon.ata.deliveringonourpromise.ordermanipulationauthority.OrderManipulationAuthorityClient;
+import com.amazon.ata.deliveringonourpromise.promiseclient.PromiseClient;
 import com.amazon.ata.deliveringonourpromise.types.Promise;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +25,8 @@ public class PromiseDaoTest {
 
     private OrderManipulationAuthorityClient omaClient = App.getOrderManipulationAuthorityClient();
     private DeliveryPromiseServiceClient dpsClient = App.getDeliveryPromiseServiceClient();
+    private OrderFulfillmentServiceClient ofsClient = App.getOrderFulfillmentServiceClient();
+    private List<PromiseClient> promiseClients;
 
     // undelivered
     private String shippedOrderId;
@@ -62,7 +67,10 @@ public class PromiseDaoTest {
                                     .getOrderShipmentList().get(0)
                                     .getDeliveryDate();
 
-        dao = new PromiseDao(dpsClient, omaClient);
+        promiseClients = new ArrayList<>();
+        promiseClients.add(dpsClient);
+        promiseClients.add(ofsClient);
+        dao = new PromiseDao(promiseClients, omaClient);
     }
 
     @Test
