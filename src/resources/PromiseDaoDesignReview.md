@@ -10,27 +10,27 @@ What's the problem with the way the PromiseDao currently works?
 
 What ways will the CS representatives use the new multiple-client PromiseDao?
 
-- 
+- They will be able to receive the promise from the OrderFulfillmentService when available with the others.
 
 In a few sentences, how does the PromiseDao work right now?
 
-- 
+- By inputting the customerId it can retrieve promises from the OrderManipulationAuthority and the DeliveryPromiseService.
 
 Consider a developer unfamiliar with the Missed Promise CLI. Can you add diagrams here that will help them understand how the PromiseDao works right now?
 
-- 
+-
 
 ## Proposed Solution
 
 Describe in a few sentences how your changes will satisfy the use cases you listed above. How will you enable getting promises from OFS? How will you allow new promise sources to be added easily in the future?
 
-- 
+- I will implement the OFS Client then within the PromiseDao's 'get' method I will include it after the DPS client retrieval.
 
 ## Out of Scope
 
 Consider a reviewer who misunderstands this design and believes you're going to make the PromiseDao perfect. What are you not going to do? 
 
-- 
+- I'm not going to touch on the current design, just simply add the OFS functionality.
 
 ## Details
 
