@@ -45,7 +45,7 @@ public class App {
 
     /**
      * Receives a PromiseDao with all new clients.
-     * @return
+     * @return PromiseDao for all promises estimates.
      */
     public static PromiseDao getPromiseDao() {
         List<PromiseClient> promiseClients = new ArrayList<>();
