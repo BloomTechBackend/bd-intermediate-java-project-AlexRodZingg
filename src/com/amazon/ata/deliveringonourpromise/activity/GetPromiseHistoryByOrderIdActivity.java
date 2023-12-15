@@ -1,11 +1,14 @@
 package com.amazon.ata.deliveringonourpromise.activity;
 
+import com.amazon.ata.deliveringonourpromise.comparators.PromiseAsinComparator;
 import com.amazon.ata.deliveringonourpromise.dao.ReadOnlyDao;
 import com.amazon.ata.deliveringonourpromise.types.Order;
 import com.amazon.ata.deliveringonourpromise.types.OrderItem;
 import com.amazon.ata.deliveringonourpromise.types.Promise;
 import com.amazon.ata.deliveringonourpromise.types.PromiseHistory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -47,18 +50,24 @@ public class GetPromiseHistoryByOrderIdActivity {
         }
 
         List<OrderItem> customerOrderItems = order.getCustomerOrderItemList();
-        OrderItem customerOrderItem = null;
-        if (customerOrderItems != null && !customerOrderItems.isEmpty()) {
-            customerOrderItem = customerOrderItems.get(0);
-        }
+        List<Promise> allPromises = new ArrayList<>();
 
         PromiseHistory history = new PromiseHistory(order);
-        if (customerOrderItem != null) {
-            List<Promise> promises = promiseDao.get(customerOrderItem.getCustomerOrderItemId());
-            for (Promise promise : promises) {
-                promise.setConfidence(customerOrderItem.isConfidenceTracked(), customerOrderItem.getConfidence());
-                history.addPromise(promise);
+        for (OrderItem item : customerOrderItems) {
+            if (item != null) {
+                List<Promise> promises = promiseDao.get(item.getCustomerOrderItemId());
+                for (Promise promise : promises) {
+                    promise.setConfidence(item.isConfidenceTracked(), item.getConfidence());
+
+                }
+                allPromises.addAll(promises);
             }
+        }
+
+        Collections.sort(allPromises, new PromiseAsinComparator());
+
+        for (Promise promise : allPromises) {
+            history.addPromise(promise);
         }
 
         return history;

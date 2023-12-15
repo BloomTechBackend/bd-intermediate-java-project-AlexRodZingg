@@ -44,8 +44,10 @@ public class PromiseDao implements ReadOnlyDao<String, List<Promise>> {
 
         // fetch Promise from Promise Service. If exists, add to list of Promises to return.
         // Set delivery date
+
         for (PromiseClient pc : promiseClients) {
             Promise promise = pc.getDeliveryPromiseByOrderItemId(customerOrderItemId);
+
             if (promise != null) {
                 promise.setDeliveryDate(itemDeliveryDate);
                 promises.add(promise);
