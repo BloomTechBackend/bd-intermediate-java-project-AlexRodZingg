@@ -9,6 +9,10 @@ public class OrderFulfillmentServiceClient implements PromiseClient {
 
     private OrderFulfillmentService orderFulfillmentService;
 
+    /**
+     * Constructor for OrderFulfillmentService Client
+     * @param orderFulfillmentService holds data for OrderFulfillment.
+     */
     public OrderFulfillmentServiceClient(OrderFulfillmentService orderFulfillmentService) {
         this.orderFulfillmentService = orderFulfillmentService;
     }
